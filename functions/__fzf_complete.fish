@@ -58,9 +58,10 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
 
         set -l query
         string join -- \n $complist \
-        | sort \
-        | eval (__fzfcmd) $initial_query --print-query (__fzf_complete_opts) \
         | cut -f1 \
+        | sort \
+        | uniq \
+        | eval (__fzfcmd) $initial_query --print-query (__fzf_complete_opts) \
         | while read -l r
             # first line is the user entered query
             if test -z "$query"
@@ -106,7 +107,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
 end
 
 function __fzf_complete_opts_common
-    echo --cycle --reverse --inline-info
+    echo -i --cycle --reverse --inline-info
 end
 
 function __fzf_complete_opts_tab_accepts
@@ -119,7 +120,7 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --with-nth=1 --preview-window=right:wrap --preview="fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --preview-window=right:wrap --preview="fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
 test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
