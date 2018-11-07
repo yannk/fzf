@@ -13,11 +13,14 @@ function __fzf_open -d "Open files and directories."
 
     # Fish shell version >= v2.7, use argparse
     if type -q argparse
-        set -l options "e/editor" "p/preview=?"
+        set -l options "e/editor" "p/preview=?" "h/hidden"
         argparse $options -- $argv
     else # Fallback for fish shell version < 2.7
         if contains -- --editor $argv; or contains -- -e $argv
             set _flag_editor "yes"
+        end
+        if contains -- --hidden $argv; or contains -- -e $argv
+            set _flag_hidden "yes"
         end
         if contains -- --preview $argv; or contains -- -p $argv
             set _flag_preview "yes"
@@ -30,13 +33,24 @@ function __fzf_open -d "Open files and directories."
     end
 
     set -q FZF_OPEN_COMMAND
-    or set -l FZF_OPEN_COMMAND "
+    or which rg >/dev/null ^/dev/null
+    and set -l FZF_OPEN_COMMAND "command rg --files \$dir"
+    or set -l FZF_OPEN_COMMAND "command find \$dir"
+
+    set -q FZF_OPEN_WITH_HIDDEN_COMMAND
+    or set -l FZF_OPEN_WITH_HIDDEN_COMMAND "
     command find -L \$dir -mindepth 1 \\( -path \$dir'*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
     -o -type f -print \
     -o -type d -print \
     -o -type l -print 2> /dev/null | sed 's@^\./@@'"
 
-    eval "$FZF_OPEN_COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | read -l select
+    if set -q _flag_hidden
+        set COMMAND $FZF_OPEN_WITH_HIDDEN_COMMAND
+    else
+        set COMMAND $FZF_OPEN_COMMAND
+    end
+
+    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | read -l select
 
     # set how to open
     set -l open_cmd
