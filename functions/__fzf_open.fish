@@ -11,6 +11,10 @@ function __fzf_open -d "Open files and directories."
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
+    if string match $dir '.'
+        set replace_first true
+    end
+
     # Fish shell version >= v2.7, use argparse
     if type -q argparse
         set -l options "e/editor" "p/preview=?" "h/hidden"
@@ -34,14 +38,14 @@ function __fzf_open -d "Open files and directories."
 
     set -q FZF_OPEN_COMMAND
     or which fd >/dev/null ^/dev/null
-    and set -l FZF_OPEN_COMMAND "command fd --type f \$dir"
+    and set -l FZF_OPEN_COMMAND "command fd . --type f \$dir"
     or which rg >/dev/null ^/dev/null
     and set -l FZF_OPEN_COMMAND "command rg --files \$dir"
     or set -l FZF_OPEN_COMMAND "command find \$dir"
 
     set -q FZF_OPEN_WITH_HIDDEN_COMMAND
     or which fd >/dev/null ^/dev/null
-    and set -l FZF_OPEN_WITH_HIDDEN_COMMAND "command fd -H --no-ignore-vcs --type f \$dir"
+    and set -l FZF_OPEN_WITH_HIDDEN_COMMAND "command fd . -H --no-ignore-vcs --type f \$dir"
     or set -l FZF_OPEN_WITH_HIDDEN_COMMAND "
     command find -L \$dir -mindepth 1 \\( -path \$dir'*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
     -o -type f -print \
@@ -74,8 +78,14 @@ function __fzf_open -d "Open files and directories."
             set open_status $status
         else
             for result in $select
-              commandline -it -- (string escape -n $result)
-              commandline -it -- " "
+                if set -q replace_first
+                    set -e replace_first
+                    commandline -rt -- (string escape -n $result)
+                    commandline -it -- " "
+                else
+                    commandline -it -- (string escape -n $result)
+                    commandline -it -- " "
+                end
             end
         end
     end

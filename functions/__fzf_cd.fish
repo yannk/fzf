@@ -17,7 +17,7 @@ function __fzf_cd -d "Change directory"
 
     set -q FZF_CD_COMMAND
     or which fd >/dev/null ^/dev/null
-    and set -l FZF_CD_COMMAND "command fd --type d \$dir"
+    and set -l FZF_CD_COMMAND "command fd . --type d \$dir"
     or set -l FZF_CD_COMMAND "
     command find -L \$dir -mindepth 1 \\( -path \$dir'*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
     -o -type d -print 2> /dev/null | sed 's@^\./@@'"

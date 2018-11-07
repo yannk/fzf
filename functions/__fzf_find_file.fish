@@ -2,6 +2,9 @@ function __fzf_find_file -d "List files and folders"
     set -l commandline (__fzf_parse_commandline)
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
+    if string match $dir '.'
+        set replace_first true
+    end
 
     set -q FZF_FIND_FILE_COMMAND
     or set -l FZF_FIND_FILE_COMMAND "
@@ -22,8 +25,15 @@ function __fzf_find_file -d "List files and folders"
     end
 
     for result in $results
-        commandline -it -- (string escape $result)
-        commandline -it -- " "
+        if set -q replace_first
+            set -e replace_first
+            commandline -rt -- (string escape $result)
+            commandline -it -- " "
+        else
+            commandline -it -- (string escape $result)
+            commandline -it -- " "
+        end
+
     end
     commandline -f repaint
 end
