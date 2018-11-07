@@ -19,7 +19,7 @@ function __fzf_open -d "Open files and directories."
         if contains -- --editor $argv; or contains -- -e $argv
             set _flag_editor "yes"
         end
-        if contains -- --hidden $argv; or contains -- -e $argv
+        if contains -- --hidden $argv; or contains -- -h $argv
             set _flag_hidden "yes"
         end
         if contains -- --preview $argv; or contains -- -p $argv
@@ -33,11 +33,15 @@ function __fzf_open -d "Open files and directories."
     end
 
     set -q FZF_OPEN_COMMAND
+    or which fd >/dev/null ^/dev/null
+    and set -l FZF_OPEN_COMMAND "command fd --type f \$dir"
     or which rg >/dev/null ^/dev/null
     and set -l FZF_OPEN_COMMAND "command rg --files \$dir"
     or set -l FZF_OPEN_COMMAND "command find \$dir"
 
     set -q FZF_OPEN_WITH_HIDDEN_COMMAND
+    or which fd >/dev/null ^/dev/null
+    and set -l FZF_OPEN_WITH_HIDDEN_COMMAND "command fd -H --no-ignore-vcs --type f \$dir"
     or set -l FZF_OPEN_WITH_HIDDEN_COMMAND "
     command find -L \$dir -mindepth 1 \\( -path \$dir'*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
     -o -type f -print \
@@ -50,7 +54,7 @@ function __fzf_open -d "Open files and directories."
         set COMMAND $FZF_OPEN_COMMAND
     end
 
-    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | read -l select
+    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | while read -l s; set select $select $s; end
 
     # set how to open
     set -l open_cmd
@@ -65,8 +69,15 @@ function __fzf_open -d "Open files and directories."
 
     set -l open_status 0
     if not test -z "$select"
-        commandline "$open_cmd \"$select\"" ;and commandline -f execute
-        set open_status $status
+        if set -q _flag_editor
+            commandline "$open_cmd \"$select\"" ;and commandline -f execute
+            set open_status $status
+        else
+            for result in $select
+              commandline -it -- (string escape -n $result)
+              commandline -it -- " "
+            end
+        end
     end
 
     commandline -f repaint
