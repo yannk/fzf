@@ -12,7 +12,7 @@ or set -U FZF_PREVIEW_FILE_CMD "head -n 30"
 
 set -q FZF_PREVIEW_DIR_CMD
 or which exa >/dev/null ^/dev/null
-and set -U FZF_PREVIEW_FILE_CMD "exa -l"
+and set -U FZF_PREVIEW_DIR_CMD "exa -l"
 or set -U FZF_PREVIEW_DIR_CMD "ls -l"
 
 function fzf_uninstall -e fzf_uninstall
