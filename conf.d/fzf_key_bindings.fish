@@ -15,14 +15,15 @@ if test "$FZF_LEGACY_KEYBINDINGS" -eq 1
         bind -M insert \co '__fzf_open --editor'
     end
 else if test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
-    bind \ea '__fzf_find_file'
+    bind \ei '__fzf_brew_install'
+    # bind \ea '__fzf_find_file'
     bind \cr '__fzf_reverse_isearch'
     bind \ek '__fzf_kill'
     bind \eL '__fzf_locate'
     bind \ec '__fzf_cd'
     bind \eC '__fzf_cd --hidden'
-    bind \eo '__fzf_open'
-    bind \eO '__fzf_open --hidden'
+    bind \ea '__fzf_open'
+    bind \eA '__fzf_open --hidden'
     bind \ee '__fzf_open --editor'
     bind \eE '__fzf_open --editor --hidden'
     bind \e\\ '__fzf_find_token'
