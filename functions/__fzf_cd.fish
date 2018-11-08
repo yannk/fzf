@@ -34,7 +34,13 @@ function __fzf_cd -d "Change directory"
         set COMMAND $FZF_CD_COMMAND
     end
 
-    eval "$COMMAND | "(__fzfcmd)" +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | read -l select
+    set -l preview_cmd
+    if set -q FZF_ENABLE_OPEN_PREVIEW
+        set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_DIR_CMD {}'"
+    end
+
+
+    eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | read -l select
 
     if not test -z "$select"
         builtin cd "$select"

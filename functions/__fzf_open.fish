@@ -11,7 +11,7 @@ function __fzf_open -d "Open files and directories."
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
-    if string match $dir '.'
+    if string match -q '.' $dir
         set replace_first true
     end
 

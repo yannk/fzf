@@ -3,7 +3,7 @@ function __fzf_locate -d "Find files using locate"
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
-    if string match $dir '.'
+    if string match -q '.' $dir
         set replace_first true
         set dir (pwd)
     end
