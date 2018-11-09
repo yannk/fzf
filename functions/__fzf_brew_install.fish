@@ -13,7 +13,7 @@ function __fzf_brew_install -d "Install brew packages"
     if test (count $select) -gt 0
         commandline "brew install $select" ;and commandline -f execute
         set open_status $status
-        commandline -f repaint
-        return $open_status
     end
+    commandline -f repaint
+    return $open_status
 end

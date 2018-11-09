@@ -4,4 +4,5 @@ function __fzf_kill -d "Kill processes"
     if test (string length "$pid") -ne 0
         echo $pid | xargs kill -9
     end
+    commandline -f repaint
 end
