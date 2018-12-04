@@ -15,5 +15,14 @@ set -q FZF_PREVIEW_DIR_CMD
 or set -U FZF_PREVIEW_DIR_CMD "__fzf_dir_preview"
 
 function fzf_uninstall -e fzf_uninstall
-  # Erase env vars and __fzf functions here.
+  set -e FZF_TMUX_HEIGHT
+  set -e FZF_DEFAULT_OPTS
+  set -e FZF_LEGACY_KEYBINDINGS
+  set -e FZF_CUSTOM_KEYBINDINGS
+  set -e FZF_COMPLETE
+  set -e FZF_ENABLE_OPEN_PREVIEW
+  set -e FZF_ENABLE_PREVIEW
+  set -e FZF_PREVIEW_FILE_CMD
+  set -e FZF_HIGHLIGHT_CMD
+  set -e FZF_PREVIEW_DIR_CMD
 end
