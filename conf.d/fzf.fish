@@ -6,20 +6,13 @@ set -q FZF_COMPLETE; or set -U FZF_COMPLETE 3
 set -q FZF_ENABLE_OPEN_PREVIEW; or set -U FZF_ENABLE_OPEN_PREVIEW 1
 set -q FZF_ENABLE_PREVIEW; or set -U FZF_ENABLE_PREVIEW 1
 set -q FZF_PREVIEW_FILE_CMD
-or which bat >/dev/null ^/dev/null
-and set -U FZF_PREVIEW_FILE_CMD 'string match -q "*binary" (file --mime {})
-                ;or bat --line-range :30 --paging never --color always'
-or set -U FZF_PREVIEW_FILE_CMD "head -n 30"
+or set -U FZF_PREVIEW_FILE_CMD '__fzf_file_preview'
 
 set -q FZF_HIGHLIGHT_CMD
-or which bat >/dev/null ^/dev/null
-and set -U FZF_HIGHLIGHT_CMD 'bat --color always'
-or set -U FZF_HIGHLIGHT_CMD 'cat'
+or set -U FZF_HIGHLIGHT_CMD '__fzf_highlight_cmd'
 
 set -q FZF_PREVIEW_DIR_CMD
-or which exa >/dev/null ^/dev/null
-and set -U FZF_PREVIEW_DIR_CMD "exa -l --color always"
-or set -U FZF_PREVIEW_DIR_CMD "ls -l"
+or set -U FZF_PREVIEW_DIR_CMD "__fzf_dir_preview"
 
 function fzf_uninstall -e fzf_uninstall
   # Erase env vars and __fzf functions here.
