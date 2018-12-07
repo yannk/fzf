@@ -42,13 +42,15 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     set cmd (string join -- ' ' $cmd)
 
     set -l initial_query ''
-    test -n "$cmd_lastw"; and set initial_query --query="$cmd_lastw"
+    test -n "$cmd_lastw"
+    and set initial_query --query="$cmd_lastw"
 
     set -l complist (complete -C$cmd)
     set -l result
 
     # do nothing if there is nothing to select from
-    test -z "$complist"; and return
+    test -z "$complist"
+    and return
 
     set -l compwc (echo $complist | wc -w)
     if test $compwc -eq 1
@@ -58,22 +60,23 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
 
         set -l query
         string join -- \n $complist \
-        | cut -f1 \
-        | sort \
-        | uniq \
-        | eval (__fzfcmd) $initial_query --print-query (__fzf_complete_opts) \
-        | while read -l r
+            | cut -f1 \
+            | sort \
+            | uniq \
+            | eval (__fzfcmd) $initial_query --print-query (__fzf_complete_opts) \
+            | while read -l r
             # first line is the user entered query
             if test -z "$query"
                 set query $r
-            # rest of lines are selected candidates
+                # rest of lines are selected candidates
             else
                 set result $result $r
             end
-          end
+        end
 
         # exit if user canceled
-        if test -z "$query" ;and test -z "$result"
+        if test -z "$query"
+            and test -z "$result"
             commandline -f repaint
             return
         end
@@ -92,7 +95,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
                 commandline -t -- (string escape -- $r)
             case '"'
                 if string match '*"*' -- $r >/dev/null
-                    commandline -t --  (string escape -- $r)
+                    commandline -t -- (string escape -- $r)
                 else
                     commandline -t -- '"'$r'"'
                 end
@@ -101,7 +104,8 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
             case '*'
                 commandline -t -- (string escape -n -- $r)
         end
-        [ $i -lt (count $result) ]; and commandline -i ' '
+        [ $i -lt (count $result) ]
+        and commandline -i ' '
     end
 
     commandline -f repaint
@@ -124,7 +128,8 @@ function __fzf_complete_opts_preview
     echo --preview-window=right:wrap --preview="fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
-test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
+test "$argv[1]" = "__fzf_complete_preview"
+and __fzf_complete_preview $argv[2..3]
 
 function __fzf_complete_opts_0 -d 'basic single selection with tab accept'
     __fzf_complete_opts_common

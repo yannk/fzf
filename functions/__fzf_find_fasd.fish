@@ -5,7 +5,9 @@ function __fzf_find_fasd
         set replace_first true
     end
 
-    fasd -l $argv | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --no-sort --query \"$fzf_query\"" | while read -l s; set results $results $s; end
+    fasd -l $argv | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --no-sort --query \"$fzf_query\"" | while read -l s
+        set results $results $s
+    end
     for result in $results
         if set -q replace_first
             set -e replace_first

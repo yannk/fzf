@@ -8,10 +8,13 @@ function __fzf_brew_install -d "Install brew packages"
     end
 
     set -l COMMAND "brew search"
-    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s; set select $select $s; end
+    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+        set select $select $s
+    end
 
     if test (count $select) -gt 0
-        commandline "brew install $select" ;and commandline -f execute
+        commandline "brew install $select"
+        and commandline -f execute
         set open_status $status
     end
     commandline -f repaint

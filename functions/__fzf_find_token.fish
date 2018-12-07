@@ -5,7 +5,9 @@ function __fzf_find_token
         set replace_first true
     end
 
-    history | string join ' ' | string split ' ' | sort | uniq | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s; set results $results $s; end
+    history | string join ' ' | string split ' ' | sort | uniq | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+        set results $results $s
+    end
     for result in $results
         if set -q replace_first
             set -e replace_first

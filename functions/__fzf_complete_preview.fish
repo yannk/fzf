@@ -26,14 +26,16 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     end
 
     # show ten lines of non-binary files preview
-    if test -f "$argv[1]"; and grep -qI . "$argv[1]"
+    if test -f "$argv[1]"
+        and grep -qI . "$argv[1]"
         echo $argv[1]
         eval $FZF_PREVIEW_FILE_CMD (string escape $argv[1])
         echo $argv[2]
         return
     end
 
-    if test -f "$argv"; and grep -qI . "$argv"
+    if test -f "$argv"
+        and grep -qI . "$argv"
         echo $argv
         eval $FZF_PREVIEW_FILE_CMD (string escape $argv)
         return
