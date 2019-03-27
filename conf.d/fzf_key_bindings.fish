@@ -26,8 +26,6 @@ else if test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ee '__fzf_find_file --editor'
     bind \eE '__fzf_find_file --editor --hidden'
     bind \e\\ '__fzf_find_token'
-    bind \ep '__fzf_find_fasd -f'
-    bind \eP '__fzf_find_fasd -d'
 
     if bind -M insert >/dev/null 2>/dev/null
         bind -M insert \ea '__fzf_find_file'
@@ -37,8 +35,6 @@ else if test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
         bind -M insert \eo '__fzf_find_file'
         bind -M insert \ee '__fzf_find_file --editor'
         bind -M insert \e\\ '__fzf_find_token'
-        bind -M insert \eF '__fzf_find_fasd -f'
-        bind -M insert \eD '__fzf_find_fasd -d'
     end
 else
     bind \cf '__fzf_find_file'
@@ -91,8 +87,6 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
         bind --erase \ee '__fzf_find_file --editor'
         bind --erase \eE '__fzf_find_file --editor --hidden'
         bind --erase \e\\ '__fzf_find_token'
-        bind --erase \ep '__fzf_find_fasd -f'
-        bind --erase \eP '__fzf_find_fasd -d'
 
         if bind --erase -M insert >/dev/null 2>/dev/null
             bind --erase -M insert \ea '__fzf_find_file'
@@ -102,8 +96,6 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
             bind --erase -M insert \eo '__fzf_find_file'
             bind --erase -M insert \ee '__fzf_find_file --editor'
             bind --erase -M insert \e\\ '__fzf_find_token'
-            bind --erase -M insert \eF '__fzf_find_fasd -f'
-            bind --erase -M insert \eD '__fzf_find_fasd -d'
         end
     else
         bind --erase \cf '__fzf_find_file'
