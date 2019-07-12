@@ -39,6 +39,10 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     end
 
     set -l cmd_lastw $cmd[-1]
+    set -l quote (string match -r '^[\'"]' "$cmd_lastw")
+    and not string match -r "$quote\$" "$cmd_lastw"
+    and set cmd_lastw "$cmd_lastw$quote"
+
     set cmd (string join -- ' ' $cmd)
 
     set -l initial_query ''
