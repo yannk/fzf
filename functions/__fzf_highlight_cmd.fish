@@ -1,4 +1,4 @@
-set -xg BAT_EXISTS (which BAT ^/dev/null)
+set -xg BAT_EXISTS (which bat ^/dev/null)
 
 function __fzf_highlight_cmd -d "Highlight text"
     if test -n "$BAT_EXISTS"

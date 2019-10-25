@@ -1,4 +1,4 @@
-set -xg BAT_EXISTS (which BAT ^/dev/null)
+set -xg BAT_EXISTS (which bat ^/dev/null)
 
 function __fzf_file_preview -d "Preview file in side panel"
     if string match -q "*binary" (file --mime {})
