@@ -1,5 +1,7 @@
+set -xg BAT_EXISTS (which BAT ^/dev/null)
+
 function __fzf_highlight_cmd -d "Highlight text"
-    if which bat >/dev/null ^/dev/null
+    if test -n "$BAT_EXISTS"
         bat --color always $argv[1]
     else
         cat $argv[1]
