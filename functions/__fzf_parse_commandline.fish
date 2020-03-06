@@ -9,12 +9,12 @@ function __fzf_parse_commandline -d 'Parse the current command line token and re
     else
         set dir (__fzf_get_dir $commandline)
 
-        if [ "$dir" = "." -a (string sub -l 1 $commandline) != '.' ]
+        if [ "$dir" = "." -a (string sub -l 1 -- $commandline) != '.' ]
             # if $dir is "." but commandline is not a relative path, this means no file path found
             set fzf_query $commandline
         else
             # Also remove trailing slash after dir, to "split" input properly
-            set fzf_query (string replace -r "^$dir/?" '' "$commandline")
+            set fzf_query (string replace -r -- "^$dir/?" '' "$commandline")
         end
     end
 

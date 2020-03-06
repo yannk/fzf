@@ -39,48 +39,45 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     end
 
     set -l cmd_lastw $cmd[-1]
-    set -l quote (string match -r '^[\'"]' "$cmd_lastw")
-    and not string match -r "$quote\$" "$cmd_lastw"
-    and set cmd_lastw "$cmd_lastw$quote"
-
     set cmd (string join -- ' ' $cmd)
 
     set -l initial_query ''
-    test -n "$cmd_lastw"
-    and set initial_query --query="$cmd_lastw"
+    test -n "$cmd_lastw"; and set initial_query --query="$cmd_lastw"
 
     set -l complist (complete -C$cmd)
     set -l result
 
     # do nothing if there is nothing to select from
-    test -z "$complist"
-    and return
+    test -z "$complist"; and return
 
     set -l compwc (echo $complist | wc -w)
     if test $compwc -eq 1
         # if there is only one option dont open fzf
         set result "$complist"
     else
+        test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+        set -lx FZF_COMPLETE_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_COMPLETE_OPTS"
 
         set -l query
         string join -- \n $complist \
-            | cut -f1 \
-            | sort \
-            | uniq \
-            | eval (__fzfcmd) $initial_query --print-query (__fzf_complete_opts) \
-            | while read -l r
+        | eval (__fzfcmd) $FZF_COMPLETE_OPTS (string escape --no-quoted -- $initial_query) --print-query (__fzf_complete_opts) \
+        | cut -f1 \
+        | while read -l r
             # first line is the user entered query
             if test -z "$query"
-                set query $r
-                # rest of lines are selected candidates
+                if test -z "$r"
+                    set query " "
+                else
+                    set query $r
+                end
+            # rest of lines are selected candidates
             else
                 set result $result $r
             end
-        end
+          end
 
         # exit if user canceled
-        if test -z "$query"
-            and test -z "$result"
+        if test -z "$query" ;and test -z "$result"
             commandline -f repaint
             return
         end
@@ -99,24 +96,26 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
                 commandline -t -- (string escape -- $r)
             case '"'
                 if string match '*"*' -- $r >/dev/null
-                    commandline -t -- (string escape -- $r)
+                    commandline -t --  (string escape -- $r)
                 else
                     commandline -t -- '"'$r'"'
                 end
             case '~'
                 commandline -t -- (string sub -s 2 (string escape -n -- $r))
             case '*'
-                commandline -t -- (string escape -n -- $r)
+                commandline -t -- $r
         end
-        [ $i -lt (count $result) ]
-        and commandline -i ' '
+        [ $i -lt (count $result) ]; and commandline -i ' '
     end
 
     commandline -f repaint
 end
 
 function __fzf_complete_opts_common
-    echo -i --cycle --reverse --inline-info
+    if set -q FZF_DEFAULT_OPTS
+        echo $FZF_DEFAULT_OPTS
+    end
+    echo --cycle --reverse --inline-info
 end
 
 function __fzf_complete_opts_tab_accepts
@@ -129,11 +128,10 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --preview-window=right:wrap --preview="fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --with-nth=1 --preview-window=right:wrap --preview="NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
-test "$argv[1]" = "__fzf_complete_preview"
-and __fzf_complete_preview $argv[2..3]
+test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
 
 function __fzf_complete_opts_0 -d 'basic single selection with tab accept'
     __fzf_complete_opts_common
@@ -169,5 +167,8 @@ function __fzf_complete_opts -d 'fzf options for fish tab completion'
             __fzf_complete_opts_3
         case '*'
             echo $FZF_COMPLETE
+    end
+    if set -q FZF_COMPLETE_OPTS
+        echo $FZF_COMPLETE_OPTS
     end
 end

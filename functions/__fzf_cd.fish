@@ -10,7 +10,7 @@ function __fzf_cd -d "Change directory"
     set -l COMMAND
 
     if not set -q FZF_CD_COMMAND
-        if which fd >/dev/null ^/dev/null
+        if which fd >/dev/null 2>/dev/null
             set FZF_CD_COMMAND "command fd . --type d \$dir"
         else
             set FZF_CD_COMMAND "
@@ -37,14 +37,18 @@ function __fzf_cd -d "Change directory"
         set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_DIR_CMD {}'"
     end
 
+    test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+    begin
+        set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
-    eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | read -l select
+        eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | read -l select
 
-    if not test -z "$select"
-        builtin cd "$select"
+        if not test -z "$select"
+            builtin cd "$select"
 
-        # Remove last token from commandline.
-        commandline -t ""
+            # Remove last token from commandline.
+            commandline -t ""
+        end
     end
 
     commandline -f repaint

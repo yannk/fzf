@@ -1,4 +1,4 @@
-if test "$FZF_LEGACY_KEYBINDINGS" -eq 1
+if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_LEGACY_KEYBINDINGS" -eq 1
     bind \ct '__fzf_find_file'
     bind \cr '__fzf_reverse_isearch'
     bind \ec '__fzf_cd'
@@ -14,18 +14,28 @@ if test "$FZF_LEGACY_KEYBINDINGS" -eq 1
         bind -M insert \cg '__fzf_find_file'
         bind -M insert \co '__fzf_find_file --editor'
     end
-else if test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
+else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ei '__fzf_brew_install'
     bind \cr '__fzf_reverse_isearch'
     bind \ek '__fzf_kill'
     bind \eL '__fzf_locate'
     bind \e\; '__fzf_cd'
-    bind \e:  '__fzf_cd --hidden'
+    bind \e: '__fzf_cd --hidden'
     bind \e\' '__fzf_find_file'
     bind \e\" '__fzf_find_file --hidden'
     bind \ee '__fzf_find_file --editor'
     bind \eE '__fzf_find_file --editor --hidden'
     bind \e\\ '__fzf_find_token'
+
+    bind \cg\ch '__fzf_git --hash'
+    bind \cg\cr '__fzf_git --remote'
+    bind \cg\ct '__fzf_git --tag'
+    bind \cg\cb '__fzf_git --branch'
+    bind \cg\cf '__fzf_git --file'
+
+    bind \ea 'eval git add (__fzf_git --file --echo)'
+    bind \er 'git rebase (__fzf_git --remote --echo)'
+    bind \ec 'git checkout (__fzf_git --branch --echo)'
 
     if bind -M insert >/dev/null 2>/dev/null
         bind -M insert \ea '__fzf_find_file'
@@ -59,7 +69,7 @@ if set -q FZF_COMPLETE
 end
 
 function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
-    if test "$FZF_LEGACY_KEYBINDINGS" -eq 1
+    if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_LEGACY_KEYBINDINGS" -eq 1
         bind --erase \ct '__fzf_find_file'
         bind --erase \cr '__fzf_reverse_isearch'
         bind --erase \ec '__fzf_cd'
@@ -75,7 +85,7 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
             bind --erase -M insert \cg '__fzf_find_file'
             bind --erase -M insert \co '__fzf_find_file --editor'
         end
-    else if test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
+    else if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
         bind --erase \ei '__fzf_brew_install'
         bind --erase \cr '__fzf_reverse_isearch'
         bind --erase \ek '__fzf_kill'

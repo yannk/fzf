@@ -13,14 +13,14 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     set -l dir (__with_cdpath "$argv")
     if test -d $dir
         echo $argv
-        eval $FZF_PREVIEW_DIR_CMD (string escape $dir)
+        __fzf_dir_preview (string escape -- $dir)
         return
     end
 
     set -l dir (__with_cdpath "$argv[1]")
     if test -d $dir
         echo $argv[1]
-        eval $FZF_PREVIEW_DIR_CMD (string escape $dir)
+        __fzf_dir_preview (string escape -- $dir)
         echo $argv[2]
         return
     end
@@ -29,7 +29,7 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     if test -f "$argv[1]"
         and grep -qI . "$argv[1]"
         echo $argv[1]
-        eval $FZF_PREVIEW_FILE_CMD (string escape $argv[1])
+        __fzf_file_preview (string escape -- $argv[1])
         echo $argv[2]
         return
     end
@@ -37,21 +37,21 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     if test -f "$argv"
         and grep -qI . "$argv"
         echo $argv
-        eval $FZF_PREVIEW_FILE_CMD (string escape $argv)
+        __fzf_file_preview (string escape -- $argv)
         return
     end
 
     # if fish knows about it, let it show info
-    if type -q "$argv[1]" ^/dev/null
+    if type -q "$argv[1]" 2>/dev/null
         echo $argv[1]
-        type -a "$argv[1]" | eval $FZF_HIGHLIGHT_CMD
+        type -a "$argv[1]"
         echo $argv[2]
         return
     end
 
-    if type -q "$argv" ^/dev/null
+    if type -q "$argv" 2>/dev/null
         echo $argv
-        type -a "$argv" | eval $FZF_HIGHLIGHT_CMD
+        type -a "$argv"
         return
     end
 end

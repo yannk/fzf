@@ -3,23 +3,30 @@ function __fzf_locate -d "Find files using locate"
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
-    if not string match -q '.' $dir
+    if not string match -q -- '.' $dir
         set replace_first true
     end
-    if string match -q '.' $dir
+    if string match -q -- '.' $dir
         set dir (pwd)
     end
 
-    locate $dir | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+    set -l preview_cmd
+    if set -q FZF_ENABLE_OPEN_PREVIEW
+        set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_FILE_CMD'"
+    end
+    test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+    set -lx FZF_LOCATE_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_LOCATE_OPTS"
+
+    locate $dir | eval (__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_LOCATE_OPTS --query \"$fzf_query\"" | while read -l s
         set results $results $s
     end
     for result in $results
         if set -q replace_first
             set -e replace_first
-            commandline -rt -- (string escape -n $result)
+            commandline -rt -- (string escape -n -- $result)
             commandline -it -- " "
         else
-            commandline -it -- (string escape -n $result)
+            commandline -it -- (string escape -n -- $result)
             commandline -it -- " "
         end
     end

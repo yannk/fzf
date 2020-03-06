@@ -20,23 +20,19 @@ set -q FZF_ENABLE_PREVIEW
 or set -U FZF_ENABLE_PREVIEW 1
 
 set -q FZF_PREVIEW_FILE_CMD
-or set -U FZF_PREVIEW_FILE_CMD '__fzf_file_preview'
-
-set -q FZF_HIGHLIGHT_CMD
-or set -U FZF_HIGHLIGHT_CMD '__fzf_highlight_cmd'
+or set -U FZF_PREVIEW_FILE_CMD (__fzf_file_preview)
 
 set -q FZF_PREVIEW_DIR_CMD
-or set -U FZF_PREVIEW_DIR_CMD "__fzf_dir_preview"
+or set -U FZF_PREVIEW_DIR_CMD (__fzf_dir_preview)
 
 function fzf_uninstall -e fzf_uninstall
-  # set -e FZF_TMUX_HEIGHT
-  # set -e FZF_DEFAULT_OPTS
-  # set -e FZF_LEGACY_KEYBINDINGS
-  # set -e FZF_CUSTOM_KEYBINDINGS
-  # set -e FZF_COMPLETE
-  # set -e FZF_ENABLE_OPEN_PREVIEW
-  # set -e FZF_ENABLE_PREVIEW
-  # set -e FZF_PREVIEW_FILE_CMD
-  # set -e FZF_HIGHLIGHT_CMD
-  # set -e FZF_PREVIEW_DIR_CMD
+    set -e FZF_TMUX_HEIGHT
+    set -e FZF_DEFAULT_OPTS
+    set -e FZF_LEGACY_KEYBINDINGS
+    set -e FZF_CUSTOM_KEYBINDINGS
+    set -e FZF_COMPLETE
+    set -e FZF_ENABLE_OPEN_PREVIEW
+    set -e FZF_ENABLE_PREVIEW
+    set -e FZF_PREVIEW_FILE_CMD
+    set -e FZF_PREVIEW_DIR_CMD
 end

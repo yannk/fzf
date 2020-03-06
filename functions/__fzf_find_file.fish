@@ -11,7 +11,7 @@ function __fzf_find_file -d "Open files and directories."
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
-    if not string match -q '.' $dir
+    if not string match -q -- '.' $dir
         set replace_first true
     end
 
@@ -21,18 +21,18 @@ function __fzf_find_file -d "Open files and directories."
 
     set -l preview_cmd
     if set -q FZF_ENABLE_OPEN_PREVIEW
-        set preview_cmd "--preview-window=right:wrap --preview='fish -c \"__fzf_complete_preview {}\"'"
+        set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_FILE_CMD'"
     end
 
-    if which fd >/dev/null ^/dev/null
+    if which fd >/dev/null 2>/dev/null
         set FZF_OPEN_COMMAND "command fd . --type f \$dir"
-    else if which rg >/dev/null ^/dev/null
+    else if which rg >/dev/null 2>/dev/null
         set FZF_OPEN_COMMAND "command rg --files \$dir"
     else
         set FZF_OPEN_COMMAND "command find \$dir"
     end
 
-    if which fd >/dev/null ^/dev/null
+    if which fd >/dev/null 2>/dev/null
         set FZF_OPEN_WITH_HIDDEN_COMMAND "command fd . -H --no-ignore-vcs --type f \$dir"
     else
         set FZF_OPEN_WITH_HIDDEN_COMMAND "
@@ -48,6 +48,8 @@ function __fzf_find_file -d "Open files and directories."
         set COMMAND $FZF_OPEN_COMMAND
     end
 
+    test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+    set -lx FZF_OPEN_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_OPEN_OPTS"
     eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | while read -l s
         set select $select $s
     end
@@ -74,10 +76,10 @@ function __fzf_find_file -d "Open files and directories."
             for result in $select
                 if set -q replace_first
                     set -e replace_first
-                    commandline -rt -- (string escape -n $result)
+                    commandline -rt -- (string escape -n -- $result)
                     commandline -it -- " "
                 else
-                    commandline -it -- (string escape -n $result)
+                    commandline -it -- (string escape -n -- $result)
                     commandline -it -- " "
                 end
             end
