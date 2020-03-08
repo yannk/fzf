@@ -44,7 +44,12 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     set -l initial_query ''
     test -n "$cmd_lastw"; and set initial_query --query="$cmd_lastw"
 
-    set -l complist (complete -C$cmd)
+    set -l complist ""
+    if test -z "$cmd"; and functions -q varcache
+        set complist (varcache "COMPLETE_ALL" "complete -C | cut -d\t -f1 | sort | uniq" 3H compressed)
+    else
+        set complist (complete -C$cmd)
+    end
     set -l result
 
     # do nothing if there is nothing to select from
