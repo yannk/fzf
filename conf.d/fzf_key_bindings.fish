@@ -16,6 +16,7 @@ if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_LEGACY_KEYBINDINGS" -eq 1
     end
 else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ei '__fzf_brew_install'
+    bind \eI '__fzf_apt_install'
     bind \cr '__fzf_reverse_isearch'
     bind \ek '__fzf_kill'
     bind \eL '__fzf_locate'
@@ -87,6 +88,7 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
         end
     else if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
         bind --erase \ei '__fzf_brew_install'
+        bind --erase \eI '__fzf_apt_install'
         bind --erase \cr '__fzf_reverse_isearch'
         bind --erase \ek '__fzf_kill'
         bind --erase \eL '__fzf_locate'

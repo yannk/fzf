@@ -1,3 +1,6 @@
+set -q FZF_SHELL
+or set -U FZF_SHELL "dash"
+
 set -q FZF_TMUX_HEIGHT
 or set -U FZF_TMUX_HEIGHT "40%"
 
