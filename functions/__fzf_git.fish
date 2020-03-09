@@ -16,7 +16,8 @@ function __fzf_gb
   eval (__fzfcmd) --ansi --multi --tac --preview-window right:70% \
     --preview (string escape -n -- 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(echo {} | sed s/^..// | cut -d" " -f1) | head -n 200') |
   sed 's/^..//' | cut -d' ' -f1 |
-  sed 's#^remotes/##'
+  sed 's#^remotes/origin/##'
+  or sed 's#^remotes/##'
 end
 
 function __fzf_gt
