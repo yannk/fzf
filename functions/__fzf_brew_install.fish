@@ -7,7 +7,7 @@ function __fzf_brew_install -d "Install brew packages"
         set preview_cmd "--preview-window=right:wrap --preview='brew info {}'"
     end
 
-    varcache BREW_SEARCH 'brew search' 12H compressed | eval (__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+    varcache BREW_SEARCH 'brew search' '12 hours' compressed | eval (__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
         set select $select $s
     end
 

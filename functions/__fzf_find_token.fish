@@ -5,7 +5,7 @@ function __fzf_find_token
         set replace_first true
     end
 
-    varcache FIND_TOKEN "__fzf_tokenize_history" 3H compressed | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+    varcache FIND_TOKEN "__fzf_tokenize_history" '3 hours' compressed | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
         set results $results $s
     end
     for result in $results

@@ -46,7 +46,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
 
     set -l complist ""
     if test -z "$cmd"; and functions -q varcache
-        set complist (varcache "COMPLETE_ALL" "complete -C | cut -d\t -f1 | sort | uniq" 3H compressed)
+        set complist (varcache "COMPLETE_ALL" "complete -C | cut -d\t -f1 | sort | uniq" '3 hours' compressed)
     else
         set complist (complete -C$cmd)
     end
