@@ -48,7 +48,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     if test -z "$cmd"; and functions -q varcache
         set complist (varcache "COMPLETE_ALL" "complete -C | cut -d\t -f1 | sort | uniq" '3 hours' compressed)
     else
-        set complist (complete -C$cmd)
+        set complist (complete -C$cmd | awk '!x[$0]++')
     end
     set -l result
 
