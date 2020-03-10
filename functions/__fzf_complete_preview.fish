@@ -44,14 +44,14 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     # if fish knows about it, let it show info
     if type -q "$argv[1]" 2>/dev/null
         echo $argv[1]
-        type -a "$argv[1]"
+        type -a "$argv[1]" | awk '!x[$0]++'
         echo $argv[2]
         return
     end
 
     if type -q "$argv" 2>/dev/null
         echo $argv
-        type -a "$argv"
+        type -a "$argv" | awk '!x[$0]++'
         return
     end
 end
