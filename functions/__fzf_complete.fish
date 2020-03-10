@@ -133,7 +133,7 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --with-nth=1 --preview-window=right:wrap --preview="NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --with-nth=1 --preview-window=right:wrap --preview="SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
 test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
