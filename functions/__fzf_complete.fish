@@ -77,7 +77,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
                 end
             # rest of lines are selected candidates
             else
-                set result $result $r
+                set result $result (string escape --no-quoted -- $r)
             end
           end
 
@@ -133,7 +133,7 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --with-nth=1 --preview-window=right:wrap --preview="SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --preview-window=right:wrap --preview="SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
 test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]

@@ -20,7 +20,7 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     set -l dir (__with_cdpath "$argv[1]")
     if test -d $dir
         echo $argv[1]
-        __fzf_dir_preview (string escape -- $dir)
+        __fzf_dir_preview (string escape -- (string replace './' '' -- $dir))
         echo $argv[2]
         return
     end
