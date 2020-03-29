@@ -77,7 +77,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
                 end
             # rest of lines are selected candidates
             else
-                set result $result (string escape --no-quoted -- $r)
+                set result $result $r
             end
           end
 
