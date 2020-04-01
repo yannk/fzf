@@ -21,6 +21,7 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ek '__fzf_kill'
     bind \eL '__fzf_locate'
     bind \e\; '__fzf_find_dir'
+    bind \e\? '__fzf_find_dir --cd'
     bind \e: '__fzf_find_dir --hidden'
     bind \e\' '__fzf_find_file'
     bind \e\" '__fzf_find_file --hidden'

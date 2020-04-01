@@ -4,7 +4,7 @@ function __fzf_find_dir -d "Change directory"
     set -l fzf_query $commandline[2]
 
     # Fish shell version >= v2.7, use argparse
-    set -l options "e/editor" "p/preview=?" "h/hidden"
+    set -l options "c/cd" "e/editor" "p/preview=?" "h/hidden"
     argparse $options -- $argv
 
     set -l COMMAND
@@ -47,7 +47,9 @@ function __fzf_find_dir -d "Change directory"
 
     set -l open_status 0
     if not test -z "$select"
-        if set -q _flag_editor
+        if set -q _flag_cd
+            cd "$select"
+        else if set -q _flag_editor
             commandline "$open_cmd \"$select\""
             and commandline -f execute
             set open_status $status
