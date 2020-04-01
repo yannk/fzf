@@ -1,10 +1,10 @@
-function __fzf_cd -d "Change directory"
+function __fzf_find_dir -d "Change directory"
     set -l commandline (__fzf_parse_commandline)
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
 
     # Fish shell version >= v2.7, use argparse
-    set -l options "h/hidden"
+    set -l options "e/editor" "p/preview=?" "h/hidden"
     argparse $options -- $argv
 
     set -l COMMAND
@@ -38,18 +38,33 @@ function __fzf_cd -d "Change directory"
     end
 
     test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
-    begin
-        set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
-        eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | read -l select
+    set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
-        if not test -z "$select"
-            builtin cd "$select"
+    eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | while read -l s
+        set select $select $s
+    end
 
-            # Remove last token from commandline.
-            commandline -t ""
+    set -l open_status 0
+    if not test -z "$select"
+        if set -q _flag_editor
+            commandline "$open_cmd \"$select\""
+            and commandline -f execute
+            set open_status $status
+        else
+            for result in $select
+                if set -q replace_first
+                    set -e replace_first
+                    commandline -rt -- (string escape -n -- $result)
+                    commandline -it -- " "
+                else
+                    commandline -it -- (string escape -n -- $result)
+                    commandline -it -- " "
+                end
+            end
         end
     end
 
     commandline -f repaint
+    return $open_status
 end
