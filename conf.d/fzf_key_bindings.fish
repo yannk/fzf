@@ -40,12 +40,18 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ec 'git checkout (__fzf_git --branch --echo)'
 
     if bind -M insert >/dev/null 2>/dev/null
-        bind -M insert \ea '__fzf_find_file'
+        bind -M insert \ei '__fzf_brew_install'
+        bind -M insert \eI '__fzf_apt_install'
         bind -M insert \cr '__fzf_reverse_isearch'
-        bind -M insert \ec '__fzf_find_dir'
-        bind -M insert \eC '__fzf_find_dir --hidden'
-        bind -M insert \eo '__fzf_find_file'
+        bind -M insert \ek '__fzf_kill'
+        bind -M insert \eL '__fzf_locate'
+        bind -M insert \e\; '__fzf_find_dir'
+        bind -M insert \e\? '__fzf_find_dir --cd'
+        bind -M insert \e: '__fzf_find_dir --hidden'
+        bind -M insert \e\' '__fzf_find_file'
+        bind -M insert \e\" '__fzf_find_file --hidden'
         bind -M insert \ee '__fzf_find_file --editor'
+        bind -M insert \eE '__fzf_find_file --editor --hidden'
         bind -M insert \e\\ '__fzf_find_token'
     end
 else
@@ -72,63 +78,63 @@ end
 
 function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
     if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_LEGACY_KEYBINDINGS" -eq 1
-        bind --erase \ct '__fzf_find_file'
-        bind --erase \cr '__fzf_reverse_isearch'
-        bind --erase \ec '__fzf_find_dir'
-        bind --erase \eC '__fzf_find_dir --hidden'
-        bind --erase \cg '__fzf_find_file'
-        bind --erase \co '__fzf_find_file --editor'
+        bind --erase \ct
+        bind --erase \cr
+        bind --erase \ec
+        bind --erase \eC
+        bind --erase \cg
+        bind --erase \co
 
         if bind --erase -M insert >/dev/null 2>/dev/null
-            bind --erase -M insert \ct '__fzf_find_file'
-            bind --erase -M insert \cr '__fzf_reverse_isearch'
-            bind --erase -M insert \ec '__fzf_find_dir'
-            bind --erase -M insert \eC '__fzf_find_dir --hidden'
-            bind --erase -M insert \cg '__fzf_find_file'
-            bind --erase -M insert \co '__fzf_find_file --editor'
+            bind --erase -M insert \ct
+            bind --erase -M insert \cr
+            bind --erase -M insert \ec
+            bind --erase -M insert \eC
+            bind --erase -M insert \cg
+            bind --erase -M insert \co
         end
     else if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
-        bind --erase \ei '__fzf_brew_install'
-        bind --erase \eI '__fzf_apt_install'
-        bind --erase \cr '__fzf_reverse_isearch'
-        bind --erase \ek '__fzf_kill'
-        bind --erase \eL '__fzf_locate'
-        bind --erase \e\; '__fzf_find_dir'
-        bind --erase \e: '__fzf_find_dir --hidden'
-        bind --erase \e\' '__fzf_find_file'
-        bind --erase \e\" '__fzf_find_file --hidden'
-        bind --erase \ee '__fzf_find_file --editor'
-        bind --erase \eE '__fzf_find_file --editor --hidden'
-        bind --erase \e\\ '__fzf_find_token'
+        bind --erase \ei
+        bind --erase \eI
+        bind --erase \cr
+        bind --erase \ek
+        bind --erase \eL
+        bind --erase \e\;
+        bind --erase \e:
+        bind --erase \e\'
+        bind --erase \e\"
+        bind --erase \ee
+        bind --erase \eE
+        bind --erase \e\\
 
         if bind --erase -M insert >/dev/null 2>/dev/null
-            bind --erase -M insert \ea '__fzf_find_file'
-            bind --erase -M insert \cr '__fzf_reverse_isearch'
-            bind --erase -M insert \ec '__fzf_find_dir'
-            bind --erase -M insert \eC '__fzf_find_dir --hidden'
-            bind --erase -M insert \eo '__fzf_find_file'
-            bind --erase -M insert \ee '__fzf_find_file --editor'
-            bind --erase -M insert \e\\ '__fzf_find_token'
+            bind --erase -M insert \ea
+            bind --erase -M insert \cr
+            bind --erase -M insert \ec
+            bind --erase -M insert \eC
+            bind --erase -M insert \eo
+            bind --erase -M insert \ee
+            bind --erase -M insert \e\\
         end
     else
-        bind --erase \cf '__fzf_find_file'
-        bind --erase \cr '__fzf_reverse_isearch'
-        bind --erase \eo '__fzf_find_dir'
-        bind --erase \eO '__fzf_find_dir --hidden'
-        bind --erase \cg '__fzf_find_file'
-        bind --erase \co '__fzf_find_file --editor'
+        bind --erase \cf
+        bind --erase \cr
+        bind --erase \eo
+        bind --erase \eO
+        bind --erase \cg
+        bind --erase \co
 
         if bind --erase -M insert >/dev/null 2>/dev/null
-            bind --erase -M insert \cf '__fzf_find_file'
-            bind --erase -M insert \cr '__fzf_reverse_isearch'
-            bind --erase -M insert \eo '__fzf_find_dir'
-            bind --erase -M insert \eO '__fzf_find_dir --hidden'
-            bind --erase -M insert \cg '__fzf_find_file'
-            bind --erase -M insert \co '__fzf_find_file --editor'
+            bind --erase -M insert \cf
+            bind --erase -M insert \cr
+            bind --erase -M insert \eo
+            bind --erase -M insert \eO
+            bind --erase -M insert \cg
+            bind --erase -M insert \co
         end
     end
 
     if set -q FZF_COMPLETE
-        bind --erase \t '__fzf_complete'
+        bind --erase \t
     end
 end
