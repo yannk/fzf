@@ -9,6 +9,16 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
         echo $argv[1]$$evar
     end
 
+    if set -q __COMPLETE_PREVIEW
+        set cmd (string replace -a '{2}' "$argv[2]" (string replace -a '{1}' "$argv[1]" $__COMPLETE_PREVIEW))
+        if set -q __COMPLETE_PREVIEW_CACHE_FOR
+            set cmd "varcache '$cmd' '$cmd' '$__COMPLETE_PREVIEW_CACHE_FOR' compressed"
+        end
+        echo $cmd
+        eval $cmd
+        return
+    end
+
     # list directories on preview
     set -l dir (__with_cdpath (__fzf_expand "$argv"))
     if test -d $dir

@@ -23,6 +23,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     # As of 2.6, fish's "complete" function does not understand
     # subcommands. Instead, we use the same hack as __fish_complete_subcommand and
     # extract the subcommand manually.
+    set -e __COMPLETE_PREVIEW
     set -l cmd (commandline -co) (commandline -ct)
 
     switch $cmd[1]
@@ -139,7 +140,7 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --preview-window=right:wrap --preview="SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --preview-window=right:wrap --preview="__COMPLETE_PREVIEW='"(string escape -n -- $__COMPLETE_PREVIEW)"'\ __COMPLETE_PREVIEW_CACHE_FOR='"(string escape -n -- $__COMPLETE_PREVIEW_CACHE_FOR)"'\ SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
 test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
