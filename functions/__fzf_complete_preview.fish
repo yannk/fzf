@@ -14,7 +14,6 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
         if set -q __COMPLETE_PREVIEW_CACHE_FOR
             set cmd "varcache '$cmd' '$cmd' '$__COMPLETE_PREVIEW_CACHE_FOR' compressed"
         end
-        echo $cmd
         eval $cmd
         return
     end
