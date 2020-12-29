@@ -29,7 +29,7 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     set -l dir (__with_cdpath (__fzf_expand "$argv[1]"))
     if test -d "$dir"
         echo $argv[1]
-        __fzf_dir_preview (string escape -- (string replace -r '^\./' '' -- $dir))
+        __fzf_dir_preview (string replace -r '^\./' '' -- $dir)
         echo $argv[2]
         return
     end
@@ -37,18 +37,16 @@ function __fzf_complete_preview -d 'generate preview for completion widget.
     # show ten lines of non-binary files preview
     set -l file (__fzf_expand "$argv[1]")
     if test -f "$file"
-        and grep -qI . "$file"
         echo $file
-        __fzf_file_preview (string escape -- $file)
+        __fzf_file_preview "$file"
         echo $argv[2]
         return
     end
 
     set -l file (__fzf_expand "$argv")
     if test -f "$file"
-        and grep -qI . "$file"
         echo $file
-        __fzf_file_preview (string escape -- $file)
+        __fzf_file_preview "$file"
         return
     end
 
