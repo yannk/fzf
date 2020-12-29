@@ -140,7 +140,7 @@ end
 
 function __fzf_complete_opts_preview
     set -l file (status -f)
-    echo --preview-window=right:wrap --preview="__COMPLETE_PREVIEW='"(string escape -n -- $__COMPLETE_PREVIEW)"'\ __COMPLETE_PREVIEW_CACHE_FOR='"(string escape -n -- $__COMPLETE_PREVIEW_CACHE_FOR)"'\ SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
+    echo --preview-window=right:wrap --preview="__COMPLETE_PREVIEW='"(string escape -n -- "$__COMPLETE_PREVIEW")"'\ __COMPLETE_PREVIEW_CACHE_FOR='"(string escape -n -- "$__COMPLETE_PREVIEW_CACHE_FOR")"'\ SKIP_CONFIG_FISH=true\ NO_FISH_INIT=true\ fish\ '$file'\ __fzf_complete_preview\ '{1}'\ '{2..}'"
 end
 
 test "$argv[1]" = "__fzf_complete_preview"; and __fzf_complete_preview $argv[2..3]
