@@ -56,7 +56,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     # do nothing if there is nothing to select from
     test -z "$complist"; and return
 
-    set -l compwc (echo $complist | wc -w)
+    set -l compwc (count $complist)
     if test $compwc -eq 1
         # if there is only one option dont open fzf
         set result "$complist"
