@@ -59,7 +59,7 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
     set -l compwc (count $complist)
     if test $compwc -eq 1
         # if there is only one option dont open fzf
-        set result "$complist"
+        set result (string split \t -- $complist)[1]
     else
         test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
         set -lx FZF_COMPLETE_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_COMPLETE_OPTS"
