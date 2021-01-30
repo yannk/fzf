@@ -51,7 +51,7 @@ function __fzf_find_file -d "Open files and directories."
     test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
     set -lx FZF_OPEN_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_OPEN_OPTS"
     eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | while read -l s
-        set select $select $s
+        set select $select (string escape -- $s)
     end
 
     # set how to open
@@ -69,7 +69,7 @@ function __fzf_find_file -d "Open files and directories."
     set -l open_status 0
     if not test -z "$select"
         if set -q _flag_editor
-            commandline "$open_cmd \"$select\""
+            commandline "$open_cmd $select"
             and commandline -f execute
             set open_status $status
         else
