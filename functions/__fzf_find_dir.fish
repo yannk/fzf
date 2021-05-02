@@ -2,6 +2,10 @@ function __fzf_find_dir -d "Change directory"
     set -l commandline (__fzf_parse_commandline)
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
+    
+    if not string match -q -- '.' $dir
+        set replace_first true
+    end
 
     # Fish shell version >= v2.7, use argparse
     set -l options "c/cd" "e/editor" "p/preview=?" "h/hidden"
