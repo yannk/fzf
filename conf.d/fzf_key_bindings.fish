@@ -26,8 +26,8 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \e: '__fzf_find_dir --hidden'
     bind \e\' __fzf_find_file
     bind \e\" '__fzf_find_file --hidden'
-    bind \ee '__fzf_find_file --editor'
-    bind \eE '__fzf_find_file --editor --hidden'
+    bind \ef '__fzf_find_file --editor'
+    bind \eF '__fzf_find_file --editor --hidden'
     bind \e\\ __fzf_find_token
 
     bind \cg\ch '__fzf_git --hash'
@@ -52,8 +52,8 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
         bind -M insert \e: '__fzf_find_dir --hidden'
         bind -M insert \e\' __fzf_find_file
         bind -M insert \e\" '__fzf_find_file --hidden'
-        bind -M insert \ee '__fzf_find_file --editor'
-        bind -M insert \eE '__fzf_find_file --editor --hidden'
+        bind -M insert \ef '__fzf_find_file --editor'
+        bind -M insert \eF '__fzf_find_file --editor --hidden'
         bind -M insert \e\\ __fzf_find_token
     end
 else
@@ -105,8 +105,8 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
         bind --erase \e:
         bind --erase \e\'
         bind --erase \e\"
-        bind --erase \ee
-        bind --erase \eE
+        bind --erase \ef
+        bind --erase \eF
         bind --erase \e\\
 
         if bind --erase -M insert >/dev/null 2>/dev/null
@@ -115,7 +115,8 @@ function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
             bind --erase -M insert \ec
             bind --erase -M insert \eC
             bind --erase -M insert \eo
-            bind --erase -M insert \ee
+            bind --erase -M insert \ef
+            bind --erase -M insert \eF
             bind --erase -M insert \e\\
         end
     else
