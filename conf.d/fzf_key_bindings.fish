@@ -1,33 +1,33 @@
 if set -q FZF_LEGACY_KEYBINDINGS; and test "$FZF_LEGACY_KEYBINDINGS" -eq 1
-    bind \ct '__fzf_find_file'
-    bind \cr '__fzf_reverse_isearch'
-    bind \ec '__fzf_find_dir'
+    bind \ct __fzf_find_file
+    bind \cr __fzf_reverse_isearch
+    bind \ec __fzf_find_dir
     bind \eC '__fzf_find_dir --hidden'
-    bind \cg '__fzf_find_file'
+    bind \cg __fzf_find_file
     bind \co '__fzf_find_file --editor'
 
     if bind -M insert >/dev/null 2>/dev/null
-        bind -M insert \ct '__fzf_find_file'
-        bind -M insert \cr '__fzf_reverse_isearch'
-        bind -M insert \ec '__fzf_find_dir'
+        bind -M insert \ct __fzf_find_file
+        bind -M insert \cr __fzf_reverse_isearch
+        bind -M insert \ec __fzf_find_dir
         bind -M insert \eC '__fzf_find_dir --hidden'
-        bind -M insert \cg '__fzf_find_file'
+        bind -M insert \cg __fzf_find_file
         bind -M insert \co '__fzf_find_file --editor'
     end
 else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
-    bind \ei '__fzf_brew_install'
-    bind \eI '__fzf_apt_install'
-    bind \cr '__fzf_reverse_isearch'
-    bind \ek '__fzf_kill'
-    bind \eL '__fzf_locate'
-    bind \e\; '__fzf_find_dir'
+    bind \ei __fzf_brew_install
+    bind \eI __fzf_apt_install
+    bind \cr __fzf_reverse_isearch
+    bind \ek __fzf_kill
+    bind \eL __fzf_locate
+    bind \e\; __fzf_find_dir
     bind \e\? '__fzf_find_dir --cd'
     bind \e: '__fzf_find_dir --hidden'
-    bind \e\' '__fzf_find_file'
+    bind \e\' __fzf_find_file
     bind \e\" '__fzf_find_file --hidden'
     bind \ee '__fzf_find_file --editor'
     bind \eE '__fzf_find_file --editor --hidden'
-    bind \e\\ '__fzf_find_token'
+    bind \e\\ __fzf_find_token
 
     bind \cg\ch '__fzf_git --hash'
     bind \cg\cr '__fzf_git --remote'
@@ -37,43 +37,44 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
 
     bind \ea 'eval git add (__fzf_git --file --echo)'
     bind \er 'git rebase (__fzf_git --remote --echo)'
-    bind \ec 'git checkout (__fzf_git --branch --echo)'
+    bind \eb 'git check
+out (__fzf_git --branch --echo)'
 
     if bind -M insert >/dev/null 2>/dev/null
-        bind -M insert \ei '__fzf_brew_install'
-        bind -M insert \eI '__fzf_apt_install'
-        bind -M insert \cr '__fzf_reverse_isearch'
-        bind -M insert \ek '__fzf_kill'
-        bind -M insert \eL '__fzf_locate'
-        bind -M insert \e\; '__fzf_find_dir'
+        bind -M insert \ei __fzf_brew_install
+        bind -M insert \eI __fzf_apt_install
+        bind -M insert \cr __fzf_reverse_isearch
+        bind -M insert \ek __fzf_kill
+        bind -M insert \eL __fzf_locate
+        bind -M insert \e\; __fzf_find_dir
         bind -M insert \e\? '__fzf_find_dir --cd'
         bind -M insert \e: '__fzf_find_dir --hidden'
-        bind -M insert \e\' '__fzf_find_file'
+        bind -M insert \e\' __fzf_find_file
         bind -M insert \e\" '__fzf_find_file --hidden'
         bind -M insert \ee '__fzf_find_file --editor'
         bind -M insert \eE '__fzf_find_file --editor --hidden'
-        bind -M insert \e\\ '__fzf_find_token'
+        bind -M insert \e\\ __fzf_find_token
     end
 else
-    bind \cf '__fzf_find_file'
-    bind \cr '__fzf_reverse_isearch'
-    bind \eo '__fzf_find_dir'
+    bind \cf __fzf_find_file
+    bind \cr __fzf_reverse_isearch
+    bind \eo __fzf_find_dir
     bind \eO '__fzf_find_dir --hidden'
-    bind \cg '__fzf_find_file'
+    bind \cg __fzf_find_file
     bind \co '__fzf_find_file --editor'
 
     if bind -M insert >/dev/null 2>/dev/null
-        bind -M insert \cf '__fzf_find_file'
-        bind -M insert \cr '__fzf_reverse_isearch'
-        bind -M insert \eo '__fzf_find_dir'
+        bind -M insert \cf __fzf_find_file
+        bind -M insert \cr __fzf_reverse_isearch
+        bind -M insert \eo __fzf_find_dir
         bind -M insert \eO '__fzf_find_dir --hidden'
-        bind -M insert \cg '__fzf_find_file'
+        bind -M insert \cg __fzf_find_file
         bind -M insert \co '__fzf_find_file --editor'
     end
 end
 
 if set -q FZF_COMPLETE
-    bind \t '__fzf_complete'
+    bind \t __fzf_complete
 end
 
 function fzf_key_bindings_uninstall -e fzf_key_bindings_uninstall
