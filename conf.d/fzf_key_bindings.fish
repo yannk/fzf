@@ -21,7 +21,8 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \ek __fzf_kill
     bind \eL __fzf_locate
     bind \e\; __fzf_find_dir
-    bind \e\? '__fzf_find_dir --cd'
+    bind \ec '__fzf_find_dir --cd'
+    bind \eC '__fzf_find_dir --cd --hidden'
     bind \e: '__fzf_find_dir --hidden'
     bind \e\' __fzf_find_file
     bind \e\" '__fzf_find_file --hidden'
@@ -37,8 +38,7 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
 
     bind \ea 'eval git add (__fzf_git --file --echo)'
     bind \er 'git rebase (__fzf_git --remote --echo)'
-    bind \eb 'git check
-out (__fzf_git --branch --echo)'
+    bind \eb 'git checkout (__fzf_git --branch --echo)'
 
     if bind -M insert >/dev/null 2>/dev/null
         bind -M insert \ei __fzf_brew_install
@@ -47,7 +47,8 @@ out (__fzf_git --branch --echo)'
         bind -M insert \ek __fzf_kill
         bind -M insert \eL __fzf_locate
         bind -M insert \e\; __fzf_find_dir
-        bind -M insert \e\? '__fzf_find_dir --cd'
+        bind -M insert \ec '__fzf_find_dir --cd'
+        bind -M insert \eC '__fzf_find_dir --cd --hidden'
         bind -M insert \e: '__fzf_find_dir --hidden'
         bind -M insert \e\' __fzf_find_file
         bind -M insert \e\" '__fzf_find_file --hidden'
