@@ -2,13 +2,13 @@ function __fzf_find_dir -d "Change directory"
     set -l commandline (__fzf_parse_commandline)
     set -l dir $commandline[1]
     set -l fzf_query $commandline[2]
-    
+
     if not string match -q -- '.' $dir
         set replace_first true
     end
 
     # Fish shell version >= v2.7, use argparse
-    set -l options "c/cd" "e/editor" "p/preview=?" "h/hidden"
+    set -l options c/cd e/editor "p/preview=?" h/hidden
     argparse $options -- $argv
 
     set -l COMMAND
@@ -46,7 +46,7 @@ function __fzf_find_dir -d "Change directory"
     set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
     eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | while read -l s
-        set select $select $s
+        set select $select (string escape -n -- $s)
     end
 
     set -l open_status 0
@@ -61,10 +61,10 @@ function __fzf_find_dir -d "Change directory"
             for result in $select
                 if set -q replace_first
                     set -e replace_first
-                    commandline -rt -- (string escape -n -- $result)
+                    commandline -rt -- (string replace -r "^$HOME" "~" -- $result)
                     commandline -it -- " "
                 else
-                    commandline -it -- (string escape -n -- $result)
+                    commandline -it -- (string replace -r "^$HOME" "~" -- $result)
                     commandline -it -- " "
                 end
             end

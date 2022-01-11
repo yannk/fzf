@@ -1,9 +1,9 @@
 function __fzf_find_file -d "Open files and directories."
     function __fzf_find_file_get_open_cmd -d "Find appropriate open command."
         if type -q xdg-open
-            echo "xdg-open"
+            echo xdg-open
         else if type -q open
-            echo "open"
+            echo open
         end
     end
 
@@ -16,7 +16,7 @@ function __fzf_find_file -d "Open files and directories."
     end
 
     # Fish shell version >= v2.7, use argparse
-    set -l options "e/editor" "p/preview=?" "h/hidden"
+    set -l options e/editor "p/preview=?" h/hidden
     argparse $options -- $argv
 
     set -l preview_cmd
@@ -51,7 +51,7 @@ function __fzf_find_file -d "Open files and directories."
     test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
     set -lx FZF_OPEN_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_OPEN_OPTS"
     eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | while read -l s
-        set select $select (string escape -- $s)
+        set select $select (string escape -n -- $s)
     end
 
     # set how to open
@@ -76,10 +76,10 @@ function __fzf_find_file -d "Open files and directories."
             for result in $select
                 if set -q replace_first
                     set -e replace_first
-                    commandline -rt -- (string escape -n -- $result)
+                    commandline -rt -- (string replace -r "^$HOME" "~" -- $result)
                     commandline -it -- " "
                 else
-                    commandline -it -- (string escape -n -- $result)
+                    commandline -it -- (string replace -r "^$HOME" "~" -- $result)
                     commandline -it -- " "
                 end
             end
