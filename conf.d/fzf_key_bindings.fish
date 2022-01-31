@@ -28,7 +28,7 @@ else if set -q FZF_CUSTOM_KEYBINDINGS; and test "$FZF_CUSTOM_KEYBINDINGS" -eq 1
     bind \e\" '__fzf_find_file --hidden'
     bind \ef '__fzf_find_file --editor'
     bind \eF '__fzf_find_file --editor --hidden'
-    bind \e\\ __fzf_find_token
+    bind \e\| __fzf_find_token
 
     bind \cg\ch '__fzf_git --hash'
     bind \cg\cr '__fzf_git --remote'

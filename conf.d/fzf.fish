@@ -1,5 +1,5 @@
 set -q FZF_SHELL
-or set -U FZF_SHELL "dash"
+or set -U FZF_SHELL dash
 
 set -q FZF_TMUX_HEIGHT
 or set -U FZF_TMUX_HEIGHT "40%"
@@ -22,11 +22,14 @@ or set -U FZF_ENABLE_OPEN_PREVIEW 1
 set -q FZF_ENABLE_PREVIEW
 or set -U FZF_ENABLE_PREVIEW 1
 
+set -q FZF_PREVIEW_UNIVERSAL_CMD
+or set -U FZF_PREVIEW_UNIVERSAL_CMD 'fish -c "__fzf_universal_preview {}"'
+
 set -q FZF_PREVIEW_FILE_CMD
-or set -U FZF_PREVIEW_FILE_CMD (__fzf_file_preview)
+or set -U FZF_PREVIEW_FILE_CMD 'fish -c "__fzf_file_preview {}"'
 
 set -q FZF_PREVIEW_DIR_CMD
-or set -U FZF_PREVIEW_DIR_CMD (__fzf_dir_preview)
+or set -U FZF_PREVIEW_DIR_CMD 'fish -c "__fzf_dir_preview {}"'
 
 function fzf_uninstall -e fzf_uninstall
     set -e FZF_TMUX_HEIGHT
