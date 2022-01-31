@@ -1,5 +1,5 @@
 set -q FZF_SHELL
-or set -U FZF_SHELL dash
+or set -U FZF_SHELL fish
 
 set -q FZF_TMUX_HEIGHT
 or set -U FZF_TMUX_HEIGHT "40%"
