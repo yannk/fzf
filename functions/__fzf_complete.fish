@@ -61,7 +61,8 @@ function __fzf_complete -d 'fzf completion and print selection back to commandli
         # if there is only one option dont open fzf
         set result (string split \t -- $complist)[1]
     else
-        test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+        test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 60%
+
         set -lx FZF_COMPLETE_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_COMPLETE_OPTS"
 
         set -l query

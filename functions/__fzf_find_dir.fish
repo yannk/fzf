@@ -41,7 +41,7 @@ function __fzf_find_dir -d "Change directory"
         set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_DIR_CMD {}'"
     end
 
-    test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 40%
+    test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 60%
 
     set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
