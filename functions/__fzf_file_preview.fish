@@ -13,9 +13,9 @@ function __fzf_file_preview -a filepath -d "Preview file in side panel"
     if string match -q -- "image/*" "$mime" || string match -q -- "*/pdf;*" "$mime"
         if command_exists kitty
             kitty icat --clear --transfer-mode file
-            timeout 10s kitty icat --place ( math "$COLUMNS / 2 - 4" )x"$FZF_PREVIEW_LINES"@( math "$COLUMNS / 2" )x0 --transfer-mode file --align right $filepath
+            timeout 10s kitty icat --place ( math -s0 "$COLUMNS / 2 - 4" )x"$FZF_PREVIEW_LINES"@( math -s0 "$COLUMNS / 2" )x0 --transfer-mode file --align right $filepath
         else if command_exists timg
-            timg -E --frames=1 --loops=1 -g ( math "$COLUMNS / 2 - 4" )x"$FZF_PREVIEW_LINES" $filepath
+            timg -E --frames=1 --loops=1 -g ( math -s0 "$COLUMNS / 2 - 4" )x"$FZF_PREVIEW_LINES" $filepath
         end
     else if string match -qr -- "archiv|compress" "$ftype"
         if string match -qr -- "\.tar" "$filepath"
