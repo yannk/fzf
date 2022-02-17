@@ -19,9 +19,9 @@ function __fzf_file_preview -a filepath -d "Preview file in side panel"
         end
     else if string match -qr -- "archiv|compress" "$ftype"
         if string match -qr -- "\.tar" "$filepath"
-            __fzf_pretty_print "$filepath" "tar -tvf $filepath"
+            __fzf_pretty_print "$filepath" "tar -tvf '$filepath'"
         else
-            __fzf_pretty_print "$filepath" "7z l -bso0 -bsp0 $filepath | egrep -v '^(Listing|Path|Type|Physical|\$)'"
+            __fzf_pretty_print "$filepath" "7z l -bso0 -bsp0 '$filepath' | egrep -v '^(Listing|Path|Type|Physical|\$)'"
         end
     else if string match -q -- "*binary" "$mime"
         if command_exists hexyl
