@@ -21,7 +21,7 @@ function __fzf_find_file -d "Open files and directories."
 
     set -l preview_cmd
     if set -q FZF_ENABLE_OPEN_PREVIEW
-        set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_FILE_CMD'"
+        set preview_cmd "--preview='$FZF_PREVIEW_FILE_CMD'"
     end
 
     if which fd >/dev/null 2>/dev/null
@@ -50,7 +50,7 @@ function __fzf_find_file -d "Open files and directories."
 
     test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 60%
     set -lx FZF_OPEN_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_OPEN_OPTS"
-    eval "$COMMAND | "(__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS --query \"$fzf_query\"" | while read -l s
+    eval "$COMMAND | "(__fzfcmd) "-m $FZF_DEFAULT_OPTS $FZF_OPEN_OPTS $preview_cmd --query \"$fzf_query\"" | while read -l s
         set select $select (string escape -n -- $s)
     end
 

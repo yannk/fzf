@@ -4,10 +4,10 @@ function __fzf_brew_install -d "Install brew packages"
 
     set -l preview_cmd
     if set -q FZF_ENABLE_PREVIEW
-        set preview_cmd "--preview-window=right:wrap --preview='NO_SHELL_INIT=1 fish -c \'varcache \"brew info {}\" \"brew info {}\" \"2 days\" compressed\''"
+        set preview_cmd "--preview='fish -c \'varcache \"brew info {}\" \"brew info {}\" \"2 days\" compressed\''"
     end
 
-    varcache BREW_SEARCH 'begin brew formulae; brew casks; end | sort' '12 hours' compressed | eval (__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+    varcache BREW_SEARCH 'begin brew formulae; brew casks; end | sort' '12 hours' compressed | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS $preview_cmd --query \"$fzf_query\"" | while read -l s
         set select $select $s
     end
 

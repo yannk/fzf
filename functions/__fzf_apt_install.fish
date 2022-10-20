@@ -4,10 +4,10 @@ function __fzf_apt_install -d "Install apt packages"
 
     set -l preview_cmd
     if set -q FZF_ENABLE_PREVIEW
-        set preview_cmd '--preview-window=right:wrap --preview=\'apt-cache show {1}\''
+        set preview_cmd '--preview=\'apt-cache show {1}\''
     end
 
-    varcache APT_CACHE_SEARCH 'apt-cache search .' '12 hours' compressed | eval (__fzfcmd) $preview_cmd "-m $FZF_DEFAULT_OPTS --query \"$fzf_query\"" | while read -l s
+    varcache APT_CACHE_SEARCH 'apt-cache search .' '12 hours' compressed | eval (__fzfcmd) "-m $FZF_DEFAULT_OPTS $preview_cmd --query \"$fzf_query\"" | while read -l s
         set select $select (echo $s | cut -d' ' -f1)
     end
 

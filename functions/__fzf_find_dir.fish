@@ -38,14 +38,14 @@ function __fzf_find_dir -d "Change directory"
 
     set -l preview_cmd
     if set -q FZF_ENABLE_OPEN_PREVIEW
-        set preview_cmd "--preview-window=right:wrap --preview='$FZF_PREVIEW_DIR_CMD {}'"
+        set preview_cmd "--preview='$FZF_PREVIEW_DIR_CMD {}'"
     end
 
     test -n "$FZF_TMUX_HEIGHT"; or set FZF_TMUX_HEIGHT 60%
 
     set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_CD_OPTS"
 
-    eval "$COMMAND | "(__fzfcmd)" $preview_cmd +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS --query \"$fzf_query\"" | while read -l s
+    eval "$COMMAND | "(__fzfcmd)" +m $FZF_DEFAULT_OPTS $FZF_CD_OPTS $preview_cmd --query \"$fzf_query\"" | while read -l s
         set select $select (string escape -n -- $s)
     end
 
